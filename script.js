@@ -14,8 +14,6 @@ playAgainBtn.style.display = 'none';
 // generating random number
 let randomNumber = Math.trunc(Math.random() * 20) + 1;
 
-// lets the number show
-// hiddenNumber.textContent = randomNumber;
 function userLost() {
   message.textContent = 'Oops! you lost!';
   playAgainBtn.style.display = 'block';
@@ -30,11 +28,6 @@ function userWon() {
   document.body.style.backgroundColor = '#60b347';
   playAgainBtn.style.display = 'block';
   highscore = score * 10;
-  // if (highscore > score * 10) {
-  //   highscore;
-  // } else {
-  //   score * 10;
-  // }
   userHighScore.textContent = highscore;
   checkBtn.style.display = 'none';
 }
@@ -63,6 +56,10 @@ checkBtn.addEventListener('click', () => {
     }
   } else if (guessedInput === randomNumber) {
     userWon();
+    let highScore = parseFloat(localStorage.getItem('highScore')) || 0;
+    const newScore = score * 10;
+    localStorage.setItem('highScore', highScore.toString());
+    userHighScore.textContent = highScore;
     hiddenNumber.textContent = guessedInput;
   }
 });
