@@ -27,9 +27,25 @@ function userWon() {
   message.textContent = 'Correct! You guessed it!';
   document.body.style.backgroundColor = '#60b347';
   playAgainBtn.style.display = 'block';
-  highscore = score * 10;
-  userHighScore.textContent = highscore;
+  // highscore = score * 10;
+  // userHighScore.textContent = highscore;
   checkBtn.style.display = 'none';
+}
+
+function calcHighScore(trialsLeft) {
+  const newHighScore = score * 10;
+  const HIGH_SCORE_KEY = 'guessingGameHighScore';
+  let currentHighScore = parseFloat(localStorage.getItem(HIGH_SCORE_KEY)) || 0;
+
+  // Use Math.max to find the higher value and update localStorage
+  const updatedHighScore = Math.max(currentHighScore, newHighScore);
+  localStorage.setItem(HIGH_SCORE_KEY, updatedHighScore.toString());
+
+  if (updatedHighScore > currentHighScore) {
+    userHighScore.textContent = updatedHighScore;
+  } else {
+    userHighScore.textContent = updatedHighScore;
+  }
 }
 
 checkBtn.addEventListener('click', () => {
@@ -56,10 +72,7 @@ checkBtn.addEventListener('click', () => {
     }
   } else if (guessedInput === randomNumber) {
     userWon();
-    let highScore = parseFloat(localStorage.getItem('highScore')) || 0;
-    const newScore = score * 10;
-    localStorage.setItem('highScore', highScore.toString());
-    userHighScore.textContent = highScore;
+    calcHighScore(score);
     hiddenNumber.textContent = guessedInput;
   }
 });
